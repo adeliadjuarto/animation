@@ -6,16 +6,23 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 public class body extends JPanel{
-	private int x = 0;
-	private int y = 100;
+	int numOfObject;
+	int MAX = 50;
+	
+	private int[] x;
+	private int[] y;
 	private int height = 10;
 	private int width = 10;
-	private int speed = 10;
+	private int speed[];
 	
-	public body(int a, int b){
+	
+	public body(){
+		x = new int[MAX];
+		y = new int[MAX];
+		speed = new int[MAX];
+		numOfObject = 0;
 		Timer tm = new Timer(10, new TimerListener());
 		tm.start();
-		x = a; y = b;
 	}
 	private class TimerListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
@@ -27,15 +34,26 @@ public class body extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		for(int i=0; i<numOfObject; i++){
 		g.setColor(new Color(192,192,192));
-		g.fillRect(x, y, width, height);
+		g.fillRect(x[i], y[i], width, height);
+		}
 		
 	}
 	
 	public void update(){
-		x += speed;
-		if(x==390 || x==0){
-			speed *= -1;
+		for (int i=0; i<numOfObject; i++){
+		x[i] += speed[i];
+		if(x[i]==390 || x[i]==0){
+			speed[i] *= -1;
 		}
+	}
+	}
+	
+	public void addObject(int x, int y){
+		this.x[numOfObject] = x;
+		this.y[numOfObject] = y;
+		speed[numOfObject] = 10;
+		numOfObject++;
 	}
 }
